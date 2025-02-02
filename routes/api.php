@@ -9,5 +9,8 @@ Route::controller(AuthController::class)->group(function() {
 
     Route::post('/send/otp', 'sendOtp');
 
+    Route::post('/verify/mobile', 'verifyMobile');
+
+    Route::post('/register', 'register')->middleware('auth:sanctum');
 
 });

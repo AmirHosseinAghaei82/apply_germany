@@ -6,11 +6,9 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class SendOtpRequest extends FormRequest
+class VerifyMobileRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+
     public function authorize(): bool
     {
         return true;
@@ -30,9 +28,11 @@ class SendOtpRequest extends FormRequest
     {
 
         return [
+            'otp'           => 'required|digits:6',
             'mobile_number' => 'required|iran_mobile'
         ];
-        
+
     }
+
 
 }
