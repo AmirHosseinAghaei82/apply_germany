@@ -13,4 +13,6 @@ Route::controller(AuthController::class)->group(function() {
 
     Route::post('/register', 'register')->middleware('auth:sanctum');
 
+    
+
 });

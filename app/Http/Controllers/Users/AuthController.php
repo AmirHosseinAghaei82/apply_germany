@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Users\RegisterRequest;
 use App\Http\Requests\Users\SendOtpRequest;
 use App\Http\Requests\Users\VerifyMobileRequest;
 use App\Services\AuthService;
@@ -33,6 +34,13 @@ class AuthController extends Controller
 
     }
 
-    
+    public function register(RegisterRequest $request)
+    {
+
+        return $this->authService->register($request);
+
+    }
+
+
 
 }

@@ -15,7 +15,7 @@ class ResponseService
 
         $response = [
             'status' => $status,
-            'message' => $message !== '' ? $message : null,
+            'message' => $message !== '' ? $message : null
         ];
 
         if ($response['message'] === null) {
@@ -35,8 +35,19 @@ class ResponseService
 
     }
 
-    public static function ServerMessage($logMessage, Exception $e)
+    public static function ServerMessage($message, $logMessage, Exception $e)
     {
+
+        $response = [
+            'status' => false,
+            'message' => $message != '' ? $message : null
+        ];
+        
+        if($response['message'] == null) {
+
+            unset($response['message']);
+
+        }
 
         Log::error($logMessage, [
             'message' => $e->getMessage(),
@@ -45,8 +56,7 @@ class ResponseService
         ]);
 
         return Response::json([
-            'status' => false,
-            'message' => 'متاسفانه مشکلی در سمت سرور پیش آمد، لطفا مجددا تلاش کنید'
+            $response,
         ], 500);
 
     }

@@ -23,4 +23,11 @@ class AuthRepository
 
     }
 
+    public function register(array $operator, array $data)
+    {
+
+        return User::updateOrCreate($operator, $data);
+
+    }
+
 }

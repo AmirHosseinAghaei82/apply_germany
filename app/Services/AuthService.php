@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\Users\RegisterRequest;
 use App\Http\Requests\Users\SendOtpRequest;
 use App\Http\Requests\Users\VerifyMobileRequest;
 use App\Models\User;
@@ -10,6 +11,7 @@ use App\Repositories\AuthRepository;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AuthService 
 {
@@ -145,6 +147,60 @@ class AuthService
 
 
     }
+
+    public function register(RegisterRequest $request)
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            $user = request()->user();
+
+            if($user->is_register == true) {
+
+                return ResponseService::responseMessage('شما قبلا ثبت نام کرده اید', false, 409);
+
+            }
+
+            $create = $this->authRepository->register([
+                'mobile_number' => $user->mobile_number
+            ],
+            [
+                'first_name'  => $request->first_name,
+                'last_name'   => $request->last_name,
+                'password'    => Hash::make($request->password),
+                'is_register' => true
+            ]);
+    
+            if($create) {
+                
+                $user->tokens()->delete();
+
+                $token = $user->createToken('register')->plainTextToken;
+
+                DB::commit();
+
+                return ResponseService::responseMessage('کاربر با موفقیت ثبت نام شد', true, 200, [
+                    'token' => $token
+                ]);
+        
+            }
+
+
+            
+        } catch (Exception $e) {
+
+            DB::rollBack();
+            
+            return ResponseService::ServerMessage('متاسفانه مشکلی در ثبت نام پیش امده است','Register : ', $e);
+
+        }
+
+
+    }
+
+
 
 
 
