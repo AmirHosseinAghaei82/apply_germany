@@ -56,7 +56,7 @@ class ResponseService
         ]);
 
         return Response::json([
-            $response,
+            $response
         ], 500);
 
     }

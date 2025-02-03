@@ -8,7 +8,7 @@ use App\Models\VerifyMobile;
 class AuthRepository 
 {
 
-    public function updateOrCreate(array $operator, array $data) :VerifyMobile
+    public function sendOtp(array $operator, array $data) :VerifyMobile
     {
       
         return VerifyMobile::updateOrCreate($operator, $data);
@@ -16,7 +16,7 @@ class AuthRepository
     }
 
 
-    public function create(array $data)
+    public function verifyMobile(array $data)
     {
 
         return User::create($data);
@@ -29,5 +29,7 @@ class AuthRepository
         return User::updateOrCreate($operator, $data);
 
     }
+
+    
 
 }

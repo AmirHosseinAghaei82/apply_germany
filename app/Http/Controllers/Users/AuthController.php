@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\users\LoginRequest;
 use App\Http\Requests\Users\RegisterRequest;
 use App\Http\Requests\Users\SendOtpRequest;
 use App\Http\Requests\Users\VerifyMobileRequest;
 use App\Services\AuthService;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -38,6 +40,13 @@ class AuthController extends Controller
     {
 
         return $this->authService->register($request);
+
+    }
+
+    public function login(LoginRequest $request)
+    {
+
+        return $this->authService->login($request);
 
     }
 

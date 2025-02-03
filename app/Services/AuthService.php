@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\users\LoginRequest;
 use App\Http\Requests\Users\RegisterRequest;
 use App\Http\Requests\Users\SendOtpRequest;
 use App\Http\Requests\Users\VerifyMobileRequest;
@@ -10,8 +11,10 @@ use App\Models\VerifyMobile;
 use App\Repositories\AuthRepository;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+
 
 class AuthService 
 {
@@ -46,7 +49,7 @@ class AuthService
 
         $expired_at = Carbon::now()->addMinutes(2);
 
-        $create = $this->authRepository->updateOrCreate([
+        $create = $this->authRepository->sendOtp([
             'mobile_number' => $request->mobile_number
         ],
         [
@@ -70,7 +73,7 @@ class AuthService
             
             DB::rollBack();
 
-           return ResponseService::ServerMessage('Send Otp : ', $e);
+           return ResponseService::ServerMessage('متاسفانه مشکلی در ارسال کد پیش امده است', 'Send Otp : ', $e);
             
         }
 
@@ -114,7 +117,7 @@ class AuthService
 
             }
 
-            $create = $this->authRepository->create([
+            $create = $this->authRepository->verifyMobile([
                 'first_name'    => '',
                 'last_name'    => '',
                 'email'         => '',
@@ -140,7 +143,7 @@ class AuthService
 
             DB::rollBack();
 
-            return ResponseService::ServerMessage('Verify Mobile : ', $e);
+            return ResponseService::ServerMessage('متاسفانه مشکلی در احراز هویت شما پیش امده است','Verify Mobile : ', $e);
 
         }
 
@@ -197,9 +200,45 @@ class AuthService
 
         }
 
+    }
+
+    public function login(LoginRequest $request)
+    {
+        
+        try {
+            
+            $checkIdentifier = User::where('is_register', true)
+            ->where('mobile_number', $request->identifier)
+            ->orwhere('email', $request->identifier)
+            ->first();
+
+            $password = $checkIdentifier->password;
+
+            if($checkIdentifier && Hash::check($request->password, $password)) {
+
+                    $checkIdentifier->tokens()->delete();
+
+                    $token = $checkIdentifier->createToken('login')->plainTextToken;
+
+                return ResponseService::responseMessage('ورود شما با موفقیت ثبت شد', true, 200, [
+                    'token' => $token
+                ]);
+
+            }
+
+            return ResponseService::responseMessage('اطلاعات وارد شده صحیح نمی باشد', false, 404);
+
+
+        } catch (Exception $e) {
+            
+        return ResponseService::ServerMessage('متاسفانی مشکلی در لاگین پیش امده است', 'Login : ', $e);
+
+        }
+
 
     }
 
+ 
 
 
 
