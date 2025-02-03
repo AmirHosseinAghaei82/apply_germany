@@ -50,6 +50,13 @@ class AuthController extends Controller
 
     }
 
+    public function logOut()
+    {
+
+        return $this->authService->logOut();
+
+    }
+
 
 
 }

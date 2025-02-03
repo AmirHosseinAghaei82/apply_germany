@@ -230,13 +230,34 @@ class AuthService
 
 
         } catch (Exception $e) {
-            
+
         return ResponseService::ServerMessage('متاسفانی مشکلی در لاگین پیش امده است', 'Login : ', $e);
 
         }
 
+    }
+
+    public function logOut()
+    {
+
+        try {
+            
+            $user = request()->user();
+
+            $user->tokens()->delete();
+
+            return ResponseService::responseMessage('کاربر لاگ اوت شد', true, 200);
+
+        } catch (Exception $e) {
+
+            return ResponseService::ServerMessage('مشکلی در لاگ اوت پیش امده است', 'LogOut : ', $e);
+
+        }   
+
+
 
     }
+
 
  
 
