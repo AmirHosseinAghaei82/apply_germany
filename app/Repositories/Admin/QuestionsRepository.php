@@ -21,6 +21,13 @@ class QuestionsRepository
 
     }
 
+    public function question($id)
+    {
+
+        return Question::find($id);
+
+    }
+
     public function findQuestion($id)
     {
 

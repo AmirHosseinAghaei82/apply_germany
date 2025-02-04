@@ -23,11 +23,15 @@ Route::controller(AuthController::class)->group(function() {
 });
 
 Route::controller(QuestionsController::class)->group(function() {
+    
+    Route::get('/questions', 'questions');
+
+    Route::get('/question/{id}', 'question');
 
     Route::post('/add/question', 'addQuestion')->middleware('auth:sanctum', Questions::class);
 
-    Route::get('/questions', 'questions');
-
     Route::delete('/delete/question/{id}', 'deleteQuestion')->middleware('auth:sanctum', Questions::class);
+
+    Route::post('/update/question', 'updateQuestion')->middleware('auth:sanctum', Questions::class);
 
 });

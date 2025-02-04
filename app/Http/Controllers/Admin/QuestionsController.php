@@ -26,17 +26,32 @@ class QuestionsController extends Controller
 
     }
     
-    public function questions()
+    public function questions($id)
     {
 
-        return $this->questionService->questions();
+        return $this->questionService->questions($id);
 
     }
+
+    public function question($id)
+    {
+
+        return $this->questionService->question($id);
+
+    }
+
+
 
     public function deleteQuestion($id)
     {
 
         return $this->questionService->deleteQuestion($id);
+
+
+
+    }
+
+    public function updateQuestion() {
 
 
 

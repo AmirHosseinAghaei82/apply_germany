@@ -80,6 +80,34 @@ class QuestionsService
 
     }
 
+    public function question($id)
+    {
+
+        try {
+
+            $question = $this->questionsRepository->question($id);
+
+            if($question) {
+
+                return ResponseService::responseMessage('', true, 200, [
+                    'question' => $question
+                ]);
+
+            }
+
+            return ResponseService::responseMessage('سوال مورد نظر شما یافت نشد', false, 404);
+
+
+        } catch(Exception $e) {
+
+            return ResponseService::ServerMessage(' متاسفانه مشکلی در نمایش  سوال موردنظر شما پیش امده است لطفا مجددا تلاش کنید', 'Question : ', $e);
+
+        }
+
+
+
+    }
+
     public function deleteQuestion($id)
     {
 
