@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Admin\QuestionsController;
 use App\Http\Controllers\Users\AuthController;
+use App\Http\Middleware\Questions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,9 +19,19 @@ Route::controller(AuthController::class)->group(function() {
     Route::post('/login', 'login');
 
     Route::get('/logout', 'logOut')->middleware('auth:sanctum');
-    
 
+});
 
+Route::controller(QuestionsController::class)->group(function() {
     
+    Route::get('/questions', 'questions');
+
+    Route::get('/question/{id}', 'question');
+
+    Route::post('/add/question', 'addQuestion')->middleware('auth:sanctum', Questions::class);
+
+    Route::delete('/delete/question/{id}', 'deleteQuestion')->middleware('auth:sanctum', Questions::class);
+
+    Route::post('/edit/question/{id}', 'editQuestion')->middleware('auth:sanctum', Questions::class);
 
 });
