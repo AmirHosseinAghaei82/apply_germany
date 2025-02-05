@@ -28,17 +28,17 @@ class QuestionsRepository
 
     }
 
-    public function findQuestion($id)
-    {
-
-        return Question::find($id);
-
-    }
-
     public function deleteQuestion($question)
     {
 
         return $question->delete();
+
+    }
+
+    public function editQuestion($question, $updateQuestion)
+    {
+
+        return $question->update($updateQuestion);
 
     }
 

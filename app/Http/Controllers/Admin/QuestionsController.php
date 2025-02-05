@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\EditQuestionRequest;
 use App\Http\Requests\Admin\QuestionsRequest;
 use App\Services\Admin\QuestionsService;
 use Illuminate\Http\Request;
@@ -40,8 +41,6 @@ class QuestionsController extends Controller
 
     }
 
-
-
     public function deleteQuestion($id)
     {
 
@@ -51,9 +50,10 @@ class QuestionsController extends Controller
 
     }
 
-    public function updateQuestion() {
+    public function editQuestion(EditQuestionRequest $request, $id)
+    {
 
-
+        return $this->questionService->editQuestion($request, $id);
 
     }
 }

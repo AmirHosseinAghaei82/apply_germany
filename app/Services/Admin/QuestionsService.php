@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Http\Requests\Admin\EditQuestionRequest;
 use App\Http\Requests\Admin\QuestionsRequest;
 use App\Repositories\Admin\QuestionsRepository;
 use App\Services\ResponseService;
@@ -69,15 +70,12 @@ class QuestionsService
 
             return ResponseService::responseMessage('سوالی وجود ندارد', false, 404);
 
-
         } catch(Exception $e) {
-
 
             return ResponseService::ServerMessage('متاسفانه مشکلی در نمایش سوالات به وجود امده است لطفا مجددا تلاش کنید', 'Questions : ', $e);
 
         }
  
-
     }
 
     public function question($id)
@@ -104,8 +102,6 @@ class QuestionsService
 
         }
 
-
-
     }
 
     public function deleteQuestion($id)
@@ -115,7 +111,7 @@ class QuestionsService
 
         try {
 
-            $question = $this->questionsRepository->findQuestion($id);
+            $question = $this->questionsRepository->question($id);
 
             if(!$question) {
     
@@ -132,7 +128,6 @@ class QuestionsService
                 return ResponseService::responseMessage('سوال حذف شد', true, 200);
     
             }
-    
 
         } catch(Exception $e) {
 
@@ -140,13 +135,56 @@ class QuestionsService
 
             return ResponseService::ServerMessage('مشکلی در حذف سوال به وجود امده است لطفا دوباره تلاش کنید', 'Delete Question : ', $e);
 
+        }
 
+    }
+
+    public function editQuestion(EditQuestionRequest $request, $id)
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            $question = $this->questionsRepository->question($id);
+
+            if(!$question) {
+
+                return ResponseService::responseMessage('سوالی جهت ویرایش یافت نشد', false, 404);
+
+            }
+
+            foreach(['question', 'answer'] as $field) {
+
+                if($request->filled($field)) {
+
+                    $updateQuestion[$field] = $request->$field ;
+
+                }
+
+            }
+
+            $update = $this->questionsRepository->editQuestion($question, $updateQuestion);
+
+            if($update) {
+
+                DB::commit();
+
+                return ResponseService::responseMessage('سوال شما ویرایش شد', true, 200);
+
+            }
+
+        } catch(Exception $e) {
+
+            DB::rollBack();
+
+            return ResponseService::ServerMessage('متاسفانه مشکلی در ثبت ویرایش پیش امده است لطفا مجددا تلاش کنید', 'Edit Question : ', $e);
 
         }
 
- 
-
     }
+
+    
 
 
 }

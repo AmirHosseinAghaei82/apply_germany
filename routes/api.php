@@ -32,6 +32,6 @@ Route::controller(QuestionsController::class)->group(function() {
 
     Route::delete('/delete/question/{id}', 'deleteQuestion')->middleware('auth:sanctum', Questions::class);
 
-    Route::post('/update/question', 'updateQuestion')->middleware('auth:sanctum', Questions::class);
+    Route::post('/edit/question/{id}', 'editQuestion')->middleware('auth:sanctum', Questions::class);
 
 });
