@@ -6,7 +6,7 @@ use App\Services\ResponseService;
 use Closure;
 use Illuminate\Http\Request;
 
-class Questions
+class CheckAdmin
 {
 
     public function handle(Request $request, Closure $next)
@@ -16,7 +16,7 @@ class Questions
 
         if($user->is_admin != true) {
 
-            return ResponseService::responseMessage('دسترسی جهت ثبت سوالات را ندارید', false, 404);
+            return ResponseService::responseMessage('دسترسی به این بخش را ندارید', false, 404);
 
         }
 

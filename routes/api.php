@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Admin\BlogsController;
 use App\Http\Controllers\Admin\QuestionsController;
 use App\Http\Controllers\Users\AuthController;
-use App\Http\Middleware\Questions;
+use App\Http\Middleware\CheckAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,10 +28,18 @@ Route::controller(QuestionsController::class)->group(function() {
 
     Route::get('/question/{id}', 'question');
 
-    Route::post('/add/question', 'addQuestion')->middleware('auth:sanctum', Questions::class);
+    Route::post('/add/question', 'addQuestion')->middleware('auth:sanctum', CheckAdmin::class);
 
-    Route::delete('/delete/question/{id}', 'deleteQuestion')->middleware('auth:sanctum', Questions::class);
+    Route::delete('/delete/question/{id}', 'deleteQuestion')->middleware('auth:sanctum', CheckAdmin::class);
 
-    Route::post('/edit/question/{id}', 'editQuestion')->middleware('auth:sanctum', Questions::class);
+    Route::post('/edit/question/{id}', 'editQuestion')->middleware('auth:sanctum', CheckAdmin::class);
+
+});
+
+Route::controller(BlogsController::class)->group(function() {
+
+    Route::post('/add/blog', 'addBlog')->middleware('auth:sanctum', CheckAdmin::class);
+
+
 
 });
