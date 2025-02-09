@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Requests\Admin\AddBlogsRequest;
+use Illuminate\Support\Facades\Storage;
 
 class HelperService
 {
@@ -12,9 +13,24 @@ class HelperService
 
         $fileName = uniqid() . "_" . basename($file->getClientOriginalName());
 
-        $file->store($path, 'public');
+        $file->storeAs($path, $fileName, 'public');
 
         return $fileName;
+
+    }
+
+    public static function deleteImage($path, $oldImage)
+    {
+
+        $fullPath  = $path. "/" . $oldImage;
+
+        if(Storage::disk('public')->exists($fullPath)) {
+
+            Storage::disk('public')->delete($fullPath);
+
+        }
+
+        
 
     }
 

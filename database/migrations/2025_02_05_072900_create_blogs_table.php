@@ -12,10 +12,10 @@ return new class extends Migration
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('alias_title');
+            $table->string('alias_title')->unique();
             $table->text('description');
             $table->text('content');
-            $table->text('image');
+            $table->text('image')->nullable();
             $table->string('alt');
             $table->timestamps();
         });

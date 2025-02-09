@@ -6,8 +6,9 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AddBlogsRequest extends FormRequest
+class EditBlogRequest extends FormRequest
 {
+
 
     public function authorize(): bool
     {
@@ -26,14 +27,12 @@ class AddBlogsRequest extends FormRequest
 
     public function rules(): array
     {
-
         return [
             'title'       => 'required',
             'description' => 'required',
             'content'     => 'required',
-            'image'       => 'required|file|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image'       => 'required|file|mimes:jpeg,jpg,png,gif,svg|max:2048',
             'alt'         => 'required'
         ];
-
     }
 }

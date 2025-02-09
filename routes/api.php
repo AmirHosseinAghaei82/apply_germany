@@ -38,8 +38,14 @@ Route::controller(QuestionsController::class)->group(function() {
 
 Route::controller(BlogsController::class)->group(function() {
 
+    Route::get('/blogs', 'blogs');
+
+    Route::get('/blog/{alias_title}', 'blog');
+
     Route::post('/add/blog', 'addBlog')->middleware('auth:sanctum', CheckAdmin::class);
 
+    Route::post('/edit/blog/{id}', 'editBlog')->middleware('auth:sanctum', CheckAdmin::class);
 
+    Route::delete('/delete/blog/{id}', 'deleteBlog')->middleware('auth:sanctum', CheckAdmin::class);
 
 });
