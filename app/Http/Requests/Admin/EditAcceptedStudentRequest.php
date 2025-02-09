@@ -6,7 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AddBlogRequest extends FormRequest
+
+class EditAcceptedStudentRequest extends FormRequest
 {
 
     public function authorize(): bool
@@ -28,12 +29,12 @@ class AddBlogRequest extends FormRequest
     {
 
         return [
-            'title'       => 'required',
-            'description' => 'required',
-            'content'     => 'required',
-            'image'       => 'file|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'alt'         => 'required'
+            'first_name' => 'required',
+            'last_name'  => 'required',
+            'field'      => 'required',
+            'university' => 'required',
+            'image'      => 'file|mimes:jpeg,jpg,png,gif,svg'
         ];
-
+        
     }
 }

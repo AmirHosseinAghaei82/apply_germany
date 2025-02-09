@@ -11,6 +11,7 @@ class HelperService
     public static function uploadImage($file,$path)
     {
 
+
         $fileName = uniqid() . "_" . basename($file->getClientOriginalName());
 
         $file->storeAs($path, $fileName, 'public');
@@ -19,7 +20,7 @@ class HelperService
 
     }
 
-    public static function deleteImage($path, $oldImage)
+    public static function deleteImage($oldImage, $path)
     {
 
         $fullPath  = $path. "/" . $oldImage;

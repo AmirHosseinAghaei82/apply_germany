@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AcceptedStudentsController;
 use App\Http\Controllers\Admin\BlogsController;
 use App\Http\Controllers\Admin\QuestionsController;
 use App\Http\Controllers\Users\AuthController;
@@ -47,5 +48,22 @@ Route::controller(BlogsController::class)->group(function() {
     Route::post('/edit/blog/{id}', 'editBlog')->middleware('auth:sanctum', CheckAdmin::class);
 
     Route::delete('/delete/blog/{id}', 'deleteBlog')->middleware('auth:sanctum', CheckAdmin::class);
+
+});
+
+Route::controller(AcceptedStudentsController::class)->group(function() {
+
+    Route::get('/accepted/students', 'acceptedStudents');
+
+    Route::get('/accepted/student/{id}', 'acceptedStudent');
+
+    Route::post('add/accepted/student', 'addAcceptedStudent')->middleware('auth:sanctum', CheckAdmin::class);
+
+    Route::post('/edit/accepted/student/{id}', 'editAcceptedStudent')->middleware('auth:sanctum', CheckAdmin::class);
+
+    Route::delete('/delete/accepted/student/{id}', 'deleteAcceptedStudent')->middleware('auth:sanctum', CheckAdmin::class);
+
+
+
 
 });
