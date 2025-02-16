@@ -23,6 +23,8 @@ Route::controller(AuthController::class)->group(function() {
 
     Route::get('/logout', 'logOut')->middleware('auth:sanctum');
 
+    Route::get('dashboard', 'dashboard')->middleware('auth:sanctum');
+
 });
 
 Route::controller(QuestionsController::class)->group(function() {

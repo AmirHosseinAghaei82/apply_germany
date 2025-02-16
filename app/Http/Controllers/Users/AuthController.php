@@ -57,6 +57,13 @@ class AuthController extends Controller
 
     }
 
+    public function dashboard()
+    {
+
+        return $this->authService->dashboard();
+
+    }
+
 
 
 }

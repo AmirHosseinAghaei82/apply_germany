@@ -258,6 +258,39 @@ class AuthService
 
     }
 
+    public function dashboard()
+    {
+
+        try {
+
+        $user = request()->user();
+
+        if(!$user) {
+
+            return ResponseService::responseMessage('شما هنوز ثبت نام نکردید', false, 403);
+
+        }
+
+        return ResponseService::responseMessage('', true, 200, [
+            'first_name'   => $user->first_name,
+            'last_name'    => $user->last_name,
+            'is_admin'     => $user->is_admin,
+            'is_supporter' => $user->is_supporter,
+            'image'        => $user->image
+            ]);
+
+
+
+        } catch(Exception $e) {
+
+            return ResponseService::ServerMessage('متاسفانه مشکلی در نمایش داشبورد به وجود امده است لطفا مجددا تلاش کنید', 'Dashboard : ', $e);
+
+
+
+        }
+
+    }
+
 
  
 

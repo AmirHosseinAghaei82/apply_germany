@@ -19,6 +19,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable(); 
             $table->string('mobile_number')->unique();
             $table->string('password');
+            $table->text('ability')->nullable();
+            $table->text('image')->nullable();
             $table->boolean('is_register')->default(0);
             $table->boolean('is_admin')->default(0);
             $table->boolean('is_supporter')->default(0);
