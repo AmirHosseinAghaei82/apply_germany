@@ -56,7 +56,7 @@ class SupporterService
 
                 DB::commit();
 
-                return ResponseService::responseMessage('فرم درخواست همکاری شما ثبت شد', true, 200);
+                return ResponseService::responseMessage('فرم درخواست پشتیبانی شما ثبت شد', true, 200);
 
             }
 
@@ -64,7 +64,7 @@ class SupporterService
 
             DB::rollBack();
 
-            return ResponseService::ServerMessage('متاسفانه مشکلی در فرایند ثبت فرم درخواست همکاری پیش امده است لطفا مجددا تلاش کنید', 'Add Supporter : ', $e);
+            return ResponseService::ServerMessage('متاسفانه مشکلی در فرایند ثبت فرم درخواست پشتیبانی پیش امده است لطفا مجددا تلاش کنید', 'Add Supporter : ', $e);
 
         }
 
@@ -89,7 +89,7 @@ class SupporterService
 
         } catch(Exception $e) {
 
-            return ResponseService::ServerMessage('متاسفانه مشکلی در نمایش درخواست های پششتیبانی به وجود امده است لطفا مجددا تلاش کنید', 'Supporters : ', $e);
+            return ResponseService::ServerMessage('متاسفانه مشکلی در نمایش درخواست های پشتیبانی به وجود امده است لطفا مجددا تلاش کنید', 'Supporters : ', $e);
 
         }
 
@@ -145,7 +145,7 @@ class SupporterService
 
             DB::commit();
 
-            return ResponseService::responseMessage('رزومه برای پشتیبانی بررسی شد', true, 200);
+            return ResponseService::responseMessage('ثبت شد', true, 200);
 
         } catch(Exception $e) {
 
