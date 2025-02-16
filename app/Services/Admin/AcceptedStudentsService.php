@@ -33,7 +33,7 @@ class AcceptedStudentsService
 
             if($request->hasFile('image')) {
 
-                $upload = HelperService::uploadImage($request->file('image'), 'acceptedstudents');
+                $upload = HelperService::uploadFile($request->file('image'), 'acceptedstudents');
 
             }
 
@@ -139,7 +139,7 @@ class AcceptedStudentsService
     
                 HelperService::deleteImage($acceptedStudent->image, 'acceptedstudents');
                 
-                $updateData['image'] = HelperService::uploadImage($request->file('image'), 'acceptedstudents');
+                $updateData['image'] = HelperService::uploadFile($request->file('image'), 'acceptedstudents');
     
             }
 

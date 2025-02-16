@@ -3,7 +3,9 @@
 use App\Http\Controllers\Admin\AcceptedStudentsController;
 use App\Http\Controllers\Admin\BlogsController;
 use App\Http\Controllers\Admin\QuestionsController;
+use App\Http\Controllers\Supporter\SupporterController;
 use App\Http\Controllers\Users\AuthController;
+use App\Http\Controllers\Users\DashboardController;
 use App\Http\Middleware\CheckAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -67,3 +69,16 @@ Route::controller(AcceptedStudentsController::class)->group(function() {
 
 
 });
+
+Route::controller(SupporterController::class)->group(function() {
+
+    Route::post('/add/supporter', 'addSupporter')->middleware('auth:sanctum');
+
+    Route::get('/supporters', 'supporters')->middleware('auth:sanctum', CheckAdmin::class);
+
+    Route::get('/supporter/{id}', 'supporter')->middleware('auth:sanctum', CheckAdmin::class);
+
+    Route::post('/edit/supporter/{id}', 'editSupporter')->middleware('auth:sanctum', CheckAdmin::class);
+
+});
+

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class HelperService
 {
 
-    public static function uploadImage($file,$path)
+    public static function uploadFile($file,$path)
     {
 
 

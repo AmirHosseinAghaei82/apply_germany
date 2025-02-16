@@ -14,9 +14,9 @@ class CheckAdmin
 
         $user = request()->user();
 
-        if($user->is_admin != true) {
+        if($user->is_admin == false) {
 
-            return ResponseService::responseMessage('دسترسی به این بخش را ندارید', false, 404);
+            return ResponseService::responseMessage('دسترسی به این بخش را ندارید', false, 403);
 
         }
 

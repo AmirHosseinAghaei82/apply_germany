@@ -38,7 +38,7 @@ class BlogsService
 
                 // $file = $request->file('image');
 
-                $upload = HelperService::uploadImage($request->file('image'), 'blogs');
+                $upload = HelperService::uploadFile($request->file('image'), 'blogs');
             }
 
             $addBlog = $this->blogsRepository->addBlog([
@@ -127,7 +127,7 @@ class BlogsService
 
                 HelperService::deleteImage('blogs', $blog->image);
 
-                $updateData['image'] = HelperService::uploadImage($request->file('image'), 'blogs');
+                $updateData['image'] = HelperService::uploadFile($request->file('image'), 'blogs');
                 
             }
 
