@@ -30,6 +30,13 @@ class AuthRepository
 
     }
 
+    public function editDashboard($user, $updateData)
+    {
+
+        return $user->update($updateData);
+
+    }
+
     
 
 }

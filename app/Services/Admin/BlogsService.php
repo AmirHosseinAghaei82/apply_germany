@@ -71,14 +71,17 @@ class BlogsService
 
             $blogs = $this->blogsRepository->blogs();
 
-            if ($blogs) {
+            if ($blogs->isEmpty()) {
 
-                return ResponseService::responseMessage('', true, 200, [
-                    'blogs' => $blogs
-                ]);
+                return ResponseService::responseMessage('متاسفانه مقاله ای یافت نشد', false, 404);
+
             }
 
-            return ResponseService::responseMessage('متاسفانه مقاله ای یافت نشد', false, 404);
+             return ResponseService::responseMessage('', true, 200, [
+                'blogs' => $blogs
+            ]);
+
+
         } catch (Exception $e) {
 
             return ResponseService::ServerMessage('متاسفانه مشکلی در روند نمایش مقاله به وجوئ امده است لطفا مجددا تلاش کنید', 'Blogs : ', $e);

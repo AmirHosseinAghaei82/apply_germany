@@ -17,14 +17,14 @@ class SupporterRepository
 
     }
 
-    public function addSupporter(array $data)
+    public function sendresume(array $data)
     {
 
         return Supporter::create($data);
 
     }
 
-    public function supporters()
+    public function resumes()
     {
 
         return DB::table('supporters')
@@ -38,10 +38,18 @@ class SupporterRepository
 
     }
 
-    public function supporter($id)
+    public function resume($id)
     {
 
-        return Supporter::find($id);
+        return DB::table('supporters')
+        ->select(
+            'supporters.*',
+            'users.first_name',
+            'users.last_name'
+        )
+        ->where('supporters.id', '=', $id)
+        ->join('users', 'supporters.user_id', '=', 'users.id')
+        ->first();
 
     }
 
@@ -53,7 +61,7 @@ class SupporterRepository
 
     }
 
-    public function supporterStatus($user, $status)
+    public function resumeStatus($user, $status)
     {
 
         $user->update([
@@ -63,30 +71,45 @@ class SupporterRepository
 
     }
 
-    public function supporterMessage($message, $supporter)
+    public function resumeMessage($message, $id)
     {
 
-        $supporter->update([
-            'message' => $message
-        ]);
+        DB::table('supporters')
+        ->where('id', $id)
+        ->update(['message' => $message]);
 
     }
 
-    // public function supporters()
-    // {
+    public function adminSupporters()
+    {
 
-    //     return User::where('is_supporter', true)
-    //     ->get();
+        return User::where('is_supporter', true)
+        ->get();
 
-    // }
+    }
 
-    // public function supporter($id)
-    // {
+    public function adminSupporter($id)
+    {
 
-    //     return User::where('id', $id)
-    //     ->where('is_supporter', true)
-    //     ->first();
+        return User::where('id', $id)
+        ->where('is_supporter', true)
+        ->first();
 
-    // }
+    }
+
+    public function supporters()
+    {
+
+        return DB::table('users')
+        ->select(
+            'users.first_name',
+            'users.last_name',
+            'users.image',
+            'users.ability'
+        )
+        ->where('is_supporter', true)
+        ->get();
+
+    }
 
 }

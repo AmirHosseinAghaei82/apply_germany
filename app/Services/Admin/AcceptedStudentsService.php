@@ -71,17 +71,16 @@ class AcceptedStudentsService
 
             $acceptedStudents = $this->acceptedStudentsRepository->acceptedStudents();
     
-            if($acceptedStudents) {
+            if($acceptedStudents->isEmpty()) {
     
-                return ResponseService::responseMessage('', true, 200, [
-                    'acceptedStudents' => $acceptedStudents
-                ]);
-    
+                return ResponseService::responseMessage('لیست پذیرفته شدگان خالی می باشد', false, 404);
+                
             }
-    
-            return ResponseService::responseMessage('لیست پذیرفته شدگان خالی می باشد', false, 404);
-
-
+            
+            return ResponseService::responseMessage('', true, 200, [
+                'acceptedStudents' => $acceptedStudents
+            ]);
+            
         } catch(Exception $e) {
 
             return ResponseService::ServerMessage('متاسفانه مشکلی در نمایش پذیرفته شدگان پیش امده است لطفا مجددا تلاش کنید', 'Accepted Students : ', $e);

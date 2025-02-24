@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Users\EditDashboardRequest;
 use App\Http\Requests\users\LoginRequest;
 use App\Http\Requests\Users\RegisterRequest;
 use App\Http\Requests\Users\SendOtpRequest;
@@ -61,6 +62,13 @@ class AuthController extends Controller
     {
 
         return $this->authService->dashboard();
+
+    }
+
+    public function editDashboard(EditDashboardRequest $request)
+    {
+
+        return $this->authService->editDashboard($request);
 
     }
 

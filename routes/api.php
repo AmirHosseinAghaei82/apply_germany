@@ -6,7 +6,9 @@ use App\Http\Controllers\Admin\QuestionsController;
 use App\Http\Controllers\Supporter\SupporterController;
 use App\Http\Controllers\Users\AuthController;
 use App\Http\Controllers\Users\DashboardController;
+use App\Http\Controllers\Users\DocumentsController;
 use App\Http\Middleware\CheckAdmin;
+use App\Http\Middleware\CheckDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +26,8 @@ Route::controller(AuthController::class)->group(function() {
     Route::get('/logout', 'logOut')->middleware('auth:sanctum');
 
     Route::get('dashboard', 'dashboard')->middleware('auth:sanctum');
+
+    Route::post('edit/dashboard', 'editDashboard')->middleware('auth:sanctum');
 
 });
 
@@ -67,20 +71,32 @@ Route::controller(AcceptedStudentsController::class)->group(function() {
 
     Route::delete('/delete/accepted/student/{id}', 'deleteAcceptedStudent')->middleware('auth:sanctum', CheckAdmin::class);
 
-
-
-
 });
 
 Route::controller(SupporterController::class)->group(function() {
 
-    Route::post('/add/supporter', 'addSupporter')->middleware('auth:sanctum');
+    Route::post('/send/resume', 'sendResume')->middleware('auth:sanctum');
 
-    Route::get('/supporters', 'supporters')->middleware('auth:sanctum', CheckAdmin::class);
+    Route::get('/resumes', 'resumes')->middleware('auth:sanctum', CheckAdmin::class);
 
-    Route::get('/supporter/{id}', 'supporter')->middleware('auth:sanctum', CheckAdmin::class);
+    Route::get('/resume/{id}', 'resume')->middleware('auth:sanctum', CheckAdmin::class);
 
-    Route::post('/edit/supporter/{id}', 'editSupporter')->middleware('auth:sanctum', CheckAdmin::class);
+    Route::post('/edit/resume/{id}', 'editResume')->middleware('auth:sanctum', CheckAdmin::class);
+
+    Route::get('/admin/supporters', 'adminSupporters')->middleware('auth:sanctum', CheckAdmin::class);
+
+    Route::get('/admin/supporter/{id}', 'adminSupporter')->middleware('auth:sanctum', CheckAdmin::class);
+
+    Route::get('/supporters', 'supporters');
 
 });
 
+Route::controller(DocumentsController::class)->group(function() {
+
+    Route::post('/add/document', 'addDocument')->middleware('auth:sanctum');
+
+    Route::get('/documents', 'documents')->middleware('auth:sanctum', CheckDocument::class);
+
+    Route::get('/document/{id}', 'document')->middleware('auth:sanctum', CheckDocument::class);
+
+});

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\Users;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-
-class EditAcceptedStudentRequest extends FormRequest
+class AddDocumentRequest extends FormRequest
 {
 
     public function authorize(): bool
@@ -27,14 +26,9 @@ class EditAcceptedStudentRequest extends FormRequest
 
     public function rules(): array
     {
-
         return [
-            'first_name' => 'required',
-            'last_name'  => 'required',
-            'field'      => 'required',
-            'university' => 'required',
-            'image'      => 'file|mimes:jpeg,jpg,png,gif,svg|max:2048'
+            'file'        => 'required|file|mimes:pdf|max:3000',
+            'description' => 'nullable|string'
         ];
-        
     }
 }

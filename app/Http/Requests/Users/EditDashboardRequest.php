@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Supporter;
+namespace App\Http\Requests\Users;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-
-class AddSupporterRequest extends FormRequest
+class EditDashboardRequest extends FormRequest
 {
 
     public function authorize(): bool
@@ -28,8 +27,10 @@ class AddSupporterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'resume'         => 'required|file|mimes:pdf',
-            'description'    => 'required'
+            'first_name'    => 'nullable|persian_alpha|max:64',
+            'last_name'     => 'nullable|persian_alpha|max:84',
+            'password'      => 'nullable|min:8|max:64|confirmed',
+            'iamge'         => 'nullable|file|mimes:png,jpeg,jpg,gif,svg|max:2048',
         ];
     }
 }

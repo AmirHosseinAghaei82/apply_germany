@@ -6,7 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class SupporterStatusRequest extends FormRequest
+
+class SendResumeRequest extends FormRequest
 {
 
     public function authorize(): bool
@@ -27,7 +28,8 @@ class SupporterStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'message'     => 'required'
+            'resume'         => 'required|file|mimes:pdf',
+            'description'    => 'required'
         ];
     }
 }

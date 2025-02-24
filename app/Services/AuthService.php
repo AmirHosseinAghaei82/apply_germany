@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\Users\EditDashboardRequest;
 use App\Http\Requests\users\LoginRequest;
 use App\Http\Requests\Users\RegisterRequest;
 use App\Http\Requests\Users\SendOtpRequest;
@@ -285,7 +286,60 @@ class AuthService
 
             return ResponseService::ServerMessage('متاسفانه مشکلی در نمایش داشبورد به وجود امده است لطفا مجددا تلاش کنید', 'Dashboard : ', $e);
 
+        }
 
+    }
+
+    public function editDashboard(EditDashboardRequest $request)
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            $user = request()->user();
+
+            if($request->hasFile('image')) {
+
+                HelperService::deleteImage($user->image, 'users');
+
+                $updateData['image'] = HelperService::uploadFile($request->file('image'), 'users');
+
+            }
+
+            // if($request->filled('password')) {
+
+            //     $updateData['password'] = Hash::make($request->password);
+
+            // }
+
+            foreach(['first_name', 'last_name', 'password'] as $field) {
+
+                if($request->filled($field)) {
+
+                    $updateData[$field] = $request->$field;
+
+                }
+
+            }
+
+            
+
+            $update = $this->authRepository->editDashboard($user, $updateData);
+
+            if($update) {
+
+                DB::commit();
+
+                return ResponseService::responseMessage('اطلاعات ویرایش شد', true, 200,);
+
+            }
+
+        } catch(Exception $e) {
+
+            DB::rollBack();
+
+            return ResponseService::ServerMessage('متاسفانه مشکلی در ثبت اطلاعات ویرایش شده پیش امده است لطفا مجددا تلاش کنید ', 'Edit Dashboard : ', $e);
 
         }
 
