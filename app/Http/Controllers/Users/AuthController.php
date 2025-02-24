@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\EditDashboardRequest;
 use App\Http\Requests\users\LoginRequest;
 use App\Http\Requests\Users\RegisterRequest;
+use App\Http\Requests\Users\SendEmailRequest;
 use App\Http\Requests\Users\SendOtpRequest;
+use App\Http\Requests\Users\VerifyEmailRequest;
 use App\Http\Requests\Users\VerifyMobileRequest;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
@@ -34,6 +36,20 @@ class AuthController extends Controller
     {
 
         return $this->authService->verifyMobile($request);
+
+    }
+
+    public function sendEmail(SendEmailRequest $request)
+    {
+
+        return $this->authService->sendEmail($request);
+
+    }
+
+    public function verifyEmail(VerifyEmailRequest $request)
+    {
+
+        return $this->authService->verifyEmail($request);
 
     }
 
@@ -71,7 +87,6 @@ class AuthController extends Controller
         return $this->authService->editDashboard($request);
 
     }
-
 
 
 }

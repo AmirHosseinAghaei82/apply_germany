@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use AcceptedStudentsService;
+
 use App\Http\Requests\Admin\AddAcceptedStudentRequest;
 use App\Http\Requests\Admin\EditAcceptedStudentRequest;
 use App\Services\Admin\AcceptedStudentsService as AdminAcceptedStudentsService;
-use Illuminate\Http\Request;
 
 class AcceptedStudentsController extends Controller
 {

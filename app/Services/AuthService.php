@@ -5,17 +5,19 @@ namespace App\Services;
 use App\Http\Requests\Users\EditDashboardRequest;
 use App\Http\Requests\users\LoginRequest;
 use App\Http\Requests\Users\RegisterRequest;
+use App\Http\Requests\Users\SendEmailRequest;
 use App\Http\Requests\Users\SendOtpRequest;
+use App\Http\Requests\Users\VerifyEmailRequest;
 use App\Http\Requests\Users\VerifyMobileRequest;
+use App\Mail\VerificationMail;
 use App\Models\User;
 use App\Models\VerifyMobile;
 use App\Repositories\AuthRepository;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Mail;
 
 class AuthService 
 {
@@ -147,6 +149,107 @@ class AuthService
             return ResponseService::ServerMessage('متاسفانه مشکلی در احراز هویت شما پیش امده است','Verify Mobile : ', $e);
 
         }
+
+
+
+    }
+
+    public function sendEmail(SendEmailRequest $request)
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            $user = request()->user();
+
+            $checkEmailTime = $this->authRepository->checkEmailtime($request);
+
+            if($checkEmailTime && now()->lessThan($checkEmailTime->expired_at)) {
+
+                return ResponseService::responseMessage('کد فرستاده به ایمیل شما هنوز منقضی نشده است', false, 409);
+
+            }
+
+            $fullName = $user->first_name . " " . $user->last_name;
+
+            $emailCode= random_int(100000, 999999);
+
+            $expired_at = Carbon::now()->addMinutes(20);
+
+            $create = $this->authRepository->sendEmail([
+                'email' => $request->email
+            ],
+            [
+                'email_code' => $emailCode,
+                'expired_at' => $expired_at
+            ]);
+
+            Mail::to($request->email)->send(new VerificationMail($emailCode, $fullName));
+
+            if($create) {
+
+                DB::commit();
+
+                return ResponseService::responseMessage('', true, 200, [
+                    'message'   => 'کد برای ایمیل شما ارسال شد', 
+                    'emailCode' => $emailCode
+                ]);
+
+            }
+
+        } catch(Exception $e) {
+
+            DB::rollBack();
+
+            return ResponseService::ServerMessage('متاسفانه مشکلی در ارسال کد برای ایمیل شما به وجود امده است لطفا مجددا تلاش نمایید', 'Send Email : ', $e);
+
+        }
+
+    }
+
+    public function verifyEmail(VerifyEmailRequest $request)
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            $user = request()->user();
+
+            $checkEmail = $this->authRepository->checkEmail($request);
+
+            if(now()->greaterThan($checkEmail->expired_at)) {
+
+                return ResponseService::responseMessage('کد فرستاده شده برای ایمیل منقضی شده است', false, 409);
+
+            }
+
+            if(!$checkEmail) {
+
+                return ResponseService::responseMessage('کد امنیتی صحیح نمی باشد', false, 422);
+
+            }
+
+            $create = $this->authRepository->verifyEmail($user, $checkEmail);
+
+            if($create) {
+
+                DB::commit();
+
+                return ResponseService::responseMessage('ایمیل شما با موفقیت ثبت شد', true, 200);
+
+            }
+
+        } catch(Exception $e) {
+
+            DB::rollBack();
+
+            return ResponseService::ServerMessage('متاسفانه مشکلی در ثبت ایمیل شما به وجود امده است لطفا مجددا تلاش نمایید', 'Verify Email : ', $e);
+            
+        }
+
+
 
 
 
