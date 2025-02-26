@@ -8,10 +8,11 @@ class Supporter extends Model
 {
     
     protected $fillable = [
-        'user_id',
-        'resume',
-        'description',
-        'message'
+        'month',
+        'day',
+        'start_time',
+        'end_time',
+        'is_reserved'
     ];
 
 }

@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Supporter;
 
-use App\Models\Supporter;
+use App\Models\Resume;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -12,7 +12,7 @@ class SupporterRepository
     public function checkResumeExist($id)
     {
 
-        return Supporter::where('user_id', $id)
+        return Resume::where('user_id', $id)
         ->first();
 
     }
@@ -20,20 +20,20 @@ class SupporterRepository
     public function sendresume(array $data)
     {
 
-        return Supporter::create($data);
+        return Resume::create($data);
 
     }
 
     public function resumes()
     {
 
-        return DB::table('supporters')
+        return DB::table('resumes')
         ->select(
-            'supporters.*',
+            'resumes.*',
             'users.first_name',
             'users.last_name'
         )
-        ->join('users', 'users.id', '=', 'supporters.user_id')
+        ->join('users', 'users.id', '=', 'resumes.user_id')
         ->get();
 
     }
@@ -41,14 +41,14 @@ class SupporterRepository
     public function resume($id)
     {
 
-        return DB::table('supporters')
+        return DB::table('resumes')
         ->select(
-            'supporters.*',
+            'resumes.*',
             'users.first_name',
             'users.last_name'
         )
-        ->where('supporters.id', '=', $id)
-        ->join('users', 'supporters.user_id', '=', 'users.id')
+        ->where('resumes.id', '=', $id)
+        ->join('users', 'resumes.user_id', '=', 'users.id')
         ->first();
 
     }
@@ -74,7 +74,7 @@ class SupporterRepository
     public function resumeMessage($message, $id)
     {
 
-        DB::table('supporters')
+        DB::table('resumes')
         ->where('id', $id)
         ->update(['message' => $message]);
 

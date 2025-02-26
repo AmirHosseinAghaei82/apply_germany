@@ -88,7 +88,7 @@ class SupporterService
             }
 
             return ResponseService::responseMessage('', true, 200, [
-                'supporters' => $resumes
+                'resumes' => $resumes
             ]);
 
         } catch(Exception $e) {
@@ -109,7 +109,7 @@ class SupporterService
             if($resume) {
 
                 return ResponseService::responseMessage('', true, 200, [
-                    'supporter' => $resume
+                    'resume' => $resume
                 ]);
 
             }
