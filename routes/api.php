@@ -3,11 +3,13 @@
 use App\Http\Controllers\Admin\AcceptedStudentsController;
 use App\Http\Controllers\Admin\BlogsController;
 use App\Http\Controllers\Admin\QuestionsController;
+use App\Http\Controllers\Supporter\ReserveController;
 use App\Http\Controllers\Supporter\SupporterController;
 use App\Http\Controllers\Users\AuthController;
 use App\Http\Controllers\Users\DocumentsController;
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckDocument;
+use App\Http\Middleware\CheckSupporter;
 use Illuminate\Support\Facades\Route;
 
 
@@ -93,6 +95,16 @@ Route::controller(SupporterController::class)->group(function() {
 
 });
 
+Route::controller(ReserveController::class)->group(function() {
+
+    Route::post('/add/time', 'addTime')->middleware('auth:sanctum', CheckSupporter::class);
+
+    
+
+
+
+});
+
 Route::controller(DocumentsController::class)->group(function() {
 
     Route::post('/add/document', 'addDocument')->middleware('auth:sanctum');
@@ -102,4 +114,6 @@ Route::controller(DocumentsController::class)->group(function() {
     Route::get('/document/{id}', 'document')->middleware('auth:sanctum', CheckDocument::class);
 
 });
+
+
 

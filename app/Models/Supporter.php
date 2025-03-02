@@ -8,8 +8,7 @@ class Supporter extends Model
 {
     
     protected $fillable = [
-        'month',
-        'day',
+        'supporter_id',
         'start_time',
         'end_time',
         'is_reserved'
