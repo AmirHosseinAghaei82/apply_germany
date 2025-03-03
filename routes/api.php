@@ -95,18 +95,17 @@ Route::controller(SupporterController::class)->group(function() {
 
 });
 
-Route::controller(ReserveController::class)->group(function() {
+Route::middleware('auth:sanctum', CheckSupporter::class)->controller(ReserveController::class)->group(function() {
 
-    Route::post('/add/time', 'addTime')->middleware('auth:sanctum', CheckSupporter::class);
+    Route::post('/add/time', 'addTime');
 
-    Route::get('/times', 'times')->middleware('auth:sanctum', CheckSupporter::class);
+    Route::get('/times', 'times');
 
-    Route::post('/edit/time/{id}', 'editTime')->middleware('auth:sanctum', CheckSupporter::class);
+    Route::get('/time/{id}', 'time');
 
-    Route::delete('/delete/time/{id}', 'deleteTime')->middleware('auth:sanctum', CheckSupporter::class);
+    Route::post('/edit/time/{id}', 'editTime');
 
-    
-
+    Route::delete('/delete/time/{id}', 'deleteTime');
 
 
 });

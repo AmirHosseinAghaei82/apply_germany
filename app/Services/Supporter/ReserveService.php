@@ -84,6 +84,33 @@ class ReserveService
 
     }
 
+    public function time($id)
+    {
+
+        try {
+
+            $user = request()->user();
+
+            $time = $this->reserveRepository->time($user, $id);
+
+            if(!$time) {
+
+                return ResponseService::responseMessage('تایم مورد نظر شما یافت نشد', false, 404);
+
+            }
+
+            return ResponseService::responseMessage('', true, 200, [
+                'time' => $time
+            ]);
+
+        } catch(Exception $e) {
+
+            return ResponseService::ServerMessage('متاسفانه مشکلی در نمایش تایم مشاورخ مورد نظر شما به وجود امده است لطفا مجددا تلاش نمایید', 'Time : ', $e);
+
+        }
+
+    }
+
     public function editTime(EditTimeRequest $request, $id)
     {
 

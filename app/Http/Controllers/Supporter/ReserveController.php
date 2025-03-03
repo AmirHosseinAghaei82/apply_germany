@@ -35,6 +35,13 @@ class ReserveController extends Controller
 
     }
 
+    public function time($id)
+    {
+
+        return $this->reserveService->time($id);
+
+    }
+
     public function editTime(EditTimeRequest $request, $id)
     {
 

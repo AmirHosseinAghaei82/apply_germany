@@ -22,16 +22,7 @@ class ReserveRepository
         return DB::table('supporters')
         ->select()
         ->where('supporter_id', $user->id)
-        ->get()
-        ->map(function($query) {
-
-            $query->start_time = Carbon::createFromTimestamp($query->start_time);
-
-            $query->end_time = Carbon::createFromTimestamp($query->end_time);
-
-            return $query;
-
-        });
+        ->get();
  
     }
 
