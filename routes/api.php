@@ -99,6 +99,12 @@ Route::controller(ReserveController::class)->group(function() {
 
     Route::post('/add/time', 'addTime')->middleware('auth:sanctum', CheckSupporter::class);
 
+    Route::get('/times', 'times')->middleware('auth:sanctum', CheckSupporter::class);
+
+    Route::post('/edit/time/{id}', 'editTime')->middleware('auth:sanctum', CheckSupporter::class);
+
+    Route::delete('/delete/time/{id}', 'deleteTime')->middleware('auth:sanctum', CheckSupporter::class);
+
     
 
 
