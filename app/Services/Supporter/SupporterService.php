@@ -4,6 +4,7 @@ namespace App\Services\Supporter;
 
 use App\Http\Requests\Supporter\AddSupporterRequest;
 use App\Http\Requests\Supporter\EditResumeRequest;
+use App\Http\Requests\Supporter\ReserveTimeRequest;
 use App\Http\Requests\Supporter\SendResumeRequest;
 use App\Http\Requests\Supporter\SendResumeSupporter;
 use App\Http\Requests\Supporter\SupporterStatusRequest;
@@ -244,5 +245,22 @@ class SupporterService
 
     }
 
+    public function supporter($id)
+    {
+
+        $supporter = $this->supporterRepository->supporter($id);
+
+        return $supporter;
+
+
+
+
+    }
+
+
+
+   
+
+    
 
 }

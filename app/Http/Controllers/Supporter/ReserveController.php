@@ -1,15 +1,19 @@
 <?php
 
+
 namespace App\Http\Controllers\Supporter;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Supporter\AddTimeRequest;
 use App\Http\Requests\Supporter\EditTimeRequest;
+use App\Http\Requests\Supporter\ReserveTimeRequest;
 use App\Services\ResponseService;
 use App\Services\Supporter\ReserveService;
 
 class ReserveController extends Controller
 {
+
+
 
     protected $reserveService;
 
@@ -31,7 +35,7 @@ class ReserveController extends Controller
     public function times()
     {
 
-        return $this->reserveService->times();
+       return $this->reserveService->times();
 
     }
 
@@ -54,6 +58,13 @@ class ReserveController extends Controller
 
         return $this->reserveService->deleteTime($id);
 
+    }
+
+    public function reserveTime(ReserveTimeRequest $request)
+    {
+    
+        return $this->reserveService->reserveTime($request);
+    
     }
 
 

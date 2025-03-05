@@ -102,12 +102,34 @@ class SupporterRepository
 
         return DB::table('users')
         ->select(
+            'users.id',
             'users.first_name',
             'users.last_name',
             'users.image',
             'users.ability'
         )
         ->where('is_supporter', true)
+        ->get();
+
+    }
+
+    public function supporter($id)
+    {
+
+        return DB::table('users')
+        ->select(
+            'supporters.supporter_id',
+            'supporters.id',
+            'users.first_name',
+            'users.last_name',
+            'users.image',
+            'users.ability',
+            'supporters.start_time',
+            'supporters.end_time',
+        )
+        ->where('users.id', $id)
+        ->where('is_supporter', true)
+        ->join('supporters', 'users.id', "=", 'supporters.supporter_id')
         ->get();
 
     }

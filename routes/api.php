@@ -77,6 +77,22 @@ Route::controller(AcceptedStudentsController::class)->group(function() {
 
 });
 
+Route::controller(ReserveController::class)->group(function() {
+
+    Route::post('/add/time', 'addTime')->middleware('auth:sanctum', CheckSupporter::class);
+
+    Route::get('/times', 'times')->middleware('auth:sanctum', CheckSupporter::class);
+
+    Route::get('/time/{id}', 'time')->middleware('auth:sanctum', CheckSupporter::class);
+
+    Route::post('/edit/time/{id}', 'editTime')->middleware('auth:sanctum', CheckSupporter::class);
+
+    Route::delete('/delete/time/{id}', 'deleteTime')->middleware('auth:sanctum', CheckSupporter::class);
+
+    Route::post('/reserve/time', 'reserveTime')->middleware('auth:sanctum');
+
+});
+
 Route::controller(SupporterController::class)->group(function() {
 
     Route::post('/send/resume', 'sendResume')->middleware('auth:sanctum');
@@ -93,20 +109,7 @@ Route::controller(SupporterController::class)->group(function() {
 
     Route::get('/supporters', 'supporters');
 
-});
-
-Route::middleware('auth:sanctum', CheckSupporter::class)->controller(ReserveController::class)->group(function() {
-
-    Route::post('/add/time', 'addTime');
-
-    Route::get('/times', 'times');
-
-    Route::get('/time/{id}', 'time');
-
-    Route::post('/edit/time/{id}', 'editTime');
-
-    Route::delete('/delete/time/{id}', 'deleteTime');
-
+    Route::get('/supporter/{id}', 'supporter')->middleware('auth:sanctum');
 
 });
 

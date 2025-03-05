@@ -9,6 +9,7 @@ return new class extends Migration
     
     public function up(): void
     {
+
         Schema::create('supporters', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('supporter_id');
@@ -17,10 +18,13 @@ return new class extends Migration
             $table->boolean('is_reserved')->default(0);
             $table->timestamps();
         });
+
     }
 
     public function down(): void
     {
+
         Schema::dropIfExists('supporters');
+        
     }
 };

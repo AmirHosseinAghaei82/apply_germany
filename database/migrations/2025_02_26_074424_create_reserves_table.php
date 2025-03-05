@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('reserves', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('supporter_id');
-            $table->string('reserved_time');
-            $table->boolean('is_reserved')->default(0);
+            $table->unsignedBigInteger('user_id');
+            $table->integer('start_time');
+            $table->integer('end_time');
             $table->timestamps();
         });
     }

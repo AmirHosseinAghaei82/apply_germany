@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Supporter;
 
+use App\Models\Reserve;
 use App\Models\Supporter;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -26,12 +27,22 @@ class ReserveRepository
  
     }
 
-    public function time($user, $id)
+    public function time($user, $id = null)
     {
+
+        if($id == null || $user == null) {
+            
+            return Supporter::where('supporter_id', $user->supporter_id)
+            ->where('id', $user->id)
+            ->first();
+     
+        }
 
         return Supporter::where('supporter_id', $user->id)
         ->where('id', $id)
         ->first();
+
+
 
     }
 
@@ -45,6 +56,22 @@ class ReserveRepository
     {
 
         return $time->delete();
+
+    }
+
+    public function reserveTime(array $data) 
+    {
+
+        return Reserve::create($data);
+
+    }
+
+    public function isReserved($time)
+    {
+
+        $time->update([
+            'is_reserved' => true
+        ]);
 
     }
 

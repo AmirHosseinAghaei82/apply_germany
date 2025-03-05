@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Supporter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Supporter\AddSupporterRequest;
 use App\Http\Requests\Supporter\EditResumeRequest;
+use App\Http\Requests\Supporter\ReserveTimeRequest;
 use App\Http\Requests\Supporter\SendResumeRequest;
 use App\Http\Requests\Supporter\SendResumeSupporter;
 use App\Http\Requests\Supporter\SupporterStatusRequest;
@@ -71,6 +72,20 @@ class SupporterController extends Controller
         return $this->supporterService->supporters();
 
     }
+
+    public function supporter($id)
+    {
+
+        return $this->supporterService->supporter($id);
+
+    }
+
+    // public function reserveTime(ReserveTimeRequest $request)
+    // {
+
+    //     return $this->supporterService->reserveTime($request);
+
+    // }
 
     
 

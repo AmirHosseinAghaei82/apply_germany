@@ -4,6 +4,7 @@ namespace App\Services\Supporter;
 
 use App\Http\Requests\Supporter\AddTimeRequest;
 use App\Http\Requests\Supporter\EditTimeRequest;
+use App\Http\Requests\Supporter\ReserveTimeRequest;
 use App\Repositories\Supporter\ReserveRepository;
 use App\Services\ResponseService;
 use Carbon\Carbon;
@@ -78,7 +79,7 @@ class ReserveService
 
         } catch(Exception $e) {
 
-            return ResponseService::ServerMessage('متاسفانه مشکلی درنمایش تایم های ثبت شده به وجود امده است لطفا مجددا تلاش نمایید', 'Times : ', $e);
+            return ResponseService::ServerMessage('متاسفانه مشکلی درنمایش تایم های ثبت شده به وجود امده است لطفا مجددا تلاش نمایید', ' Times : ', $e);
 
         }
 
@@ -105,7 +106,7 @@ class ReserveService
 
         } catch(Exception $e) {
 
-            return ResponseService::ServerMessage('متاسفانه مشکلی در نمایش تایم مشاورخ مورد نظر شما به وجود امده است لطفا مجددا تلاش نمایید', 'Time : ', $e);
+            return ResponseService::ServerMessage('متاسفانه مشکلی در نمایش تایم مشاورخ مورد نظر شما به وجود امده است لطفا مجددا تلاش نمایید', ' Time : ', $e);
 
         }
 
@@ -192,6 +193,57 @@ class ReserveService
             DB::rollBack();
 
             return ResponseService::ServerMessage('متاسفانه مشکلی در حذف تایم بهوجود اماده است لطفا مجدداتلاش نمایید', 'Delete Time : ', $e);
+
+        }
+
+    }
+
+    
+    public function reserveTime(ReserveTimeRequest $request)
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            $user = request()->user();
+
+            $time = $this->reserveRepository->time($request);
+
+            if(!$time) {
+
+                return ResponseService::responseMessage('تایم مورد نظر شما یافت نشد', false, 404);
+
+            }
+
+            if($time->is_reserved == true) {
+
+                return ResponseService::responseMessage('تایم مشاوره قبلا رزرو شده است', false, 409);
+
+            }
+
+            $reserveTime = $this->reserveRepository->reserveTime([
+                'supporter_id' => $time->supporter_id,
+                'user_id'      => $user->id,
+                'start_time'   => $time->start_time,
+                'end_time'     => $time->end_time
+            ]);
+
+            $this->reserveRepository->isReserved($time);
+
+            if($reserveTime) {
+
+                DB::commit();
+
+                return ResponseService::responseMessage('تایم مشاوره با موفقیت رزرو شد', true, 200);
+
+            }
+
+        } catch(Exception $e) {
+
+            DB::rollBack();
+
+            return ResponseService::ServerMessage('متاسفانه مشکلی در رزرو ساعت مشاوه پیش امده است لطفا مجددا تلاش نمایید', 'Reserve Time : ', $e);
 
         }
 
