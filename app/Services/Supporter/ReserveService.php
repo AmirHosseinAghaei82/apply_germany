@@ -198,7 +198,6 @@ class ReserveService
 
     }
 
-    
     public function reserveTime(ReserveTimeRequest $request)
     {
 
@@ -226,7 +225,8 @@ class ReserveService
                 'supporter_id' => $time->supporter_id,
                 'user_id'      => $user->id,
                 'start_time'   => $time->start_time,
-                'end_time'     => $time->end_time
+                'end_time'     => $time->end_time,
+                'message'      => $request->message
             ]);
 
             $this->reserveRepository->isReserved($time);
@@ -244,6 +244,66 @@ class ReserveService
             DB::rollBack();
 
             return ResponseService::ServerMessage('متاسفانه مشکلی در رزرو ساعت مشاوه پیش امده است لطفا مجددا تلاش نمایید', 'Reserve Time : ', $e);
+
+        }
+
+    }
+
+    public function supporterReservedTimes()
+    {
+
+        try {
+
+            $user = request()->user();
+            
+            $supporterReservedTimes = $this->reserveRepository->supporterReservedTimes($user);
+
+            return $supporterReservedTimes;
+
+            if($supporterReservedTimes->isEmpty()) {
+
+                return ResponseService::responseMessage('تایم رزرو شده ای یافت نشد', false, 404);
+
+            }
+
+            return ResponseService::responseMessage('', true, 200, [
+                'supporterReservedTimes' => $supporterReservedTimes
+            ]);
+
+        } catch(Exception $e) {
+
+            return ResponseService::ServerMessage('متاسفانه مشکلی در نمایش تایم های رزرو شده پیش امده است لطفا مجددا تلاش نمایید', 'Reserved Times : ', $e);
+        
+        }
+
+    }
+
+    public function reservedTimes()
+    {
+
+        try {
+
+            $user = request()->user();
+
+            $reservedTimes = $this->reserveRepository->reservedTimes($user);
+
+            // return $reservedTimes;
+
+            if($reservedTimes->isEmpty()) {
+
+                return ResponseService::responseMessage('تایم رزرو شده ای یافت نشد', false, 404);
+
+            }
+
+            $supporterInfo = $this->reserveRepository->supporterInfo($reservedTimes);
+
+            return $supporterInfo;
+
+
+
+        } catch(Exception $e) {
+
+            return ResponseService::ServerMessage('متاسفانه مشکلی در نمایش تایم های رزرو شده کاربر پیش امده است لطفا مجددا تلاش نمایید', 'Reserved Times : ', $e);
 
         }
 

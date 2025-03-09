@@ -12,7 +12,8 @@ class Reserve extends Model
         'user_id',
         'start_time',
         'end_time',
-        'reserved_time'
+        'reserved_time',
+        'message'
     ];
 
 }

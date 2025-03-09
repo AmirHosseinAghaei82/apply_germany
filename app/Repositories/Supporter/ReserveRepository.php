@@ -75,6 +75,58 @@ class ReserveRepository
 
     }
 
+    public function supporterReservedTimes($user)
+    {
 
+        return DB::table('reserves')
+        ->select(
+            'users.first_name',
+            'users.last_name',
+            'users.mobile_number',
+            'reserves.start_time',
+            'reserves.end_time',
+            'reserves.message'
+        )
+        ->where('reserves.supporter_id', $user->id)
+        ->join('users', 'users.id', '=', 'reserves.user_id')
+        ->get();
+
+    }
+
+    public function reservedTimes($user)
+    {
+
+       
+
+        return DB::table('reserves')
+        ->select(
+            'reserves.supporter_id'
+        )
+        ->where('users.id', $user->id)
+        ->join('users', 'users.id', '=', 'reserves.user_id')
+        ->get()
+        ->map(function($query) {
+
+            $data = $query->supporter_id;
+
+            return $data;
+
+        });
+
+    }
+
+    public function supporterInfo($reservedTimes)
+    {
+
+        return DB::table('users')
+        ->select(
+            'first_name',
+            'last_name',
+            'image'
+        )
+        ->whereIn('id', $reservedTimes)
+        ->get();
+
+    }
 
 }

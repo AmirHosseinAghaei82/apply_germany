@@ -67,5 +67,19 @@ class ReserveController extends Controller
     
     }
 
+    public function supporterReservedTimes()
+    {
+
+        return $this->reserveService->supporterReservedTimes();
+
+    }
+
+    public function reservedTimes()
+    {
+
+        return $this->reserveService->reservedTimes();
+
+    }
+
 
 }

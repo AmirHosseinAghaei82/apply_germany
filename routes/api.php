@@ -91,6 +91,10 @@ Route::controller(ReserveController::class)->group(function() {
 
     Route::post('/reserve/time', 'reserveTime')->middleware('auth:sanctum');
 
+    Route::get('/supporter/reserved/times', 'supporterReservedTimes')->middleware('auth:sanctum', CheckSupporter::class);
+
+    Route::get('/reserved/times', 'reservedTimes')->middleware('auth:sanctum');
+
 });
 
 Route::controller(SupporterController::class)->group(function() {
