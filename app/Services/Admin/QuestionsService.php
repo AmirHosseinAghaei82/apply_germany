@@ -60,15 +60,16 @@ class QuestionsService
 
             $questions = $this->questionsRepository->questions();
 
-            if($questions) {
+            if($questions->isEmpty()) {
 
-                return ResponseService::responseMessage('',true, 200, [
-                    'questions' => $questions
-                ]);
+                return ResponseService::responseMessage('سوالی وجود ندارد', false, 404);
 
             }
 
-            return ResponseService::responseMessage('سوالی وجود ندارد', false, 404);
+            return ResponseService::responseMessage('',true, 200, [
+                'questions' => $questions
+            ]);
+
 
         } catch(Exception $e) {
 
@@ -85,16 +86,15 @@ class QuestionsService
 
             $question = $this->questionsRepository->question($id);
 
-            if($question) {
+            if(!$question) {
 
-                return ResponseService::responseMessage('', true, 200, [
-                    'question' => $question
-                ]);
+                return ResponseService::responseMessage('سوال مورد نظر شما یافت نشد', false, 404);
 
             }
-
-            return ResponseService::responseMessage('سوال مورد نظر شما یافت نشد', false, 404);
-
+            
+            return ResponseService::responseMessage('', true, 200, [
+                'question' => $question
+            ]);
 
         } catch(Exception $e) {
 

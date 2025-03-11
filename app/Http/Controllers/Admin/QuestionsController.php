@@ -27,10 +27,10 @@ class QuestionsController extends Controller
 
     }
     
-    public function questions($id)
+    public function questions()
     {
 
-        return $this->questionService->questions($id);
+        return $this->questionService->questions();
 
     }
 
