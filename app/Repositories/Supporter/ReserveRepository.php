@@ -75,6 +75,25 @@ class ReserveRepository
 
     }
 
+    public function adminReservedTimes()
+    {
+
+        return DB::table('reserves')
+        ->select(
+            'user.first_name as user_first_name',
+            'user.last_name as user_last_name',
+            'user.mobile_number as user_mobile_number',
+            'supporter.first_name as supporter_first_name',
+            'supporter.last_name as supporter_last_name',
+            'supporter.mobile_number as supporter_mobile_number',
+            'reserves.message as reserve_message'
+        )
+        ->leftJoin('users as user', 'reserves.user_id', '=', 'user.id')
+        ->leftJoin('users as supporter', 'reserves.supporter_id', '=', 'supporter.id')
+        ->get();
+
+    }
+
     public function supporterReservedTimes($user)
     {
 
@@ -95,8 +114,6 @@ class ReserveRepository
 
     public function reservedTimes($user)
     {
-
-       
 
         return DB::table('reserves')
         ->select(
