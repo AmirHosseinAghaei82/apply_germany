@@ -7,6 +7,7 @@ use App\Http\Controllers\Supporter\ReserveController;
 use App\Http\Controllers\Supporter\SupporterController;
 use App\Http\Controllers\Users\AuthController;
 use App\Http\Controllers\Users\DocumentsController;
+use App\Http\Controllers\Users\InvitationCodeController;
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckDocument;
 use App\Http\Middleware\CheckSupporter;
@@ -124,6 +125,14 @@ Route::controller(DocumentsController::class)->group(function() {
     Route::get('/documents', 'documents')->middleware('auth:sanctum', CheckDocument::class);
 
     Route::get('/document/{id}', 'document')->middleware('auth:sanctum', CheckDocument::class);
+
+});
+
+Route::middleware('auth:sanctum')->controller(InvitationCodeController::class)->group(function() {
+
+    Route::post('/add/code', 'addCode');
+
+
 
 });
 

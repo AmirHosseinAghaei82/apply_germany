@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('sender_id');
             $table->unsignedBigInteger('receiver_id');
-            $table->integer('invitation_code');
+            $table->string('invitation_code');
             $table->boolean('code_used')->default(0);
             $table->timestamps();
         });
